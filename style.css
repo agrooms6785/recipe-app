@@ -3,4 +3,39 @@
   margin: 0;
   padding: 0;
   border-radius: 2px;
+  font-family: sans-serif;
+}
+
+body {
+  font-size: 16px;
+}
+
+.navbar {
+  display: inline-block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 3rem;
+  background-color: #a6a6a6;
+  border: 1px solid pink;
+}
+
+.nav-menu {
+  list-style-type: none;
+  text-align: center;
+  padding: 1%;
+}
+
+.wrapper {
+  margin-top: 3.1rem; /*for the height of the navbar plus a little extra*/
+  height: 100%;
+  padding: 3%;
+  text-align: center;
+  border: solid 1px purple;
+}
+
+.search-bar {
+  margin: 10px auto 10px auto;
 }
