@@ -23,11 +23,11 @@ function displayShoppingList() {}
 //this function will get full recipe info including inredients
 function getDetails(responseJson) {
   console.log(`'getDetails' ran`)
-  $('.recipe-details').on('click', function(event) {
+  $('.details-button').on('click', function(event) {
     event.preventDefault()
     console.log(`button works!`)
-    // for (let a = a <responseJson.meals[i].
-    // $('.results').append(`<p>${responseJson.meals[i].strInstructions[a]}`)
+    // $('button[name="details-button"]').addClass('hidden')
+    $(this).next().removeClass('recipe-details-hidden')
   })
 }
 
@@ -43,7 +43,15 @@ function displayResults(responseJson) {
     } else {
       $('.results').append(`<h3>${responseJson.meals[i].strMeal}</h3>
         <img class="results-thumbnail" src="${responseJson.meals[i].strMealThumb}" alt="a thumbnail image of ${responseJson.meals[i].strMealThumb}"><br>
-        <button class="recipe-details" type="button" name="details-button">click for recipe details</button>`)
+        <button class="details-button" type="button" name="details-button">click for recipe details</button>
+        <div class="recipe-details recipe-details-hidden">
+          <p>Instructions: ${responseJson.meals[i].strInstructions}</p><br>
+        <ul class="ingredients-list">
+          <li><input type="checkbox" name="ingredient">${responseJson.meals[i].strIngredient1}, ${responseJson.meals[i].strMeasure1}</li>
+          <li><input type="checkbox" name="ingredient">${responseJson.meals[i].strIngredient2}, ${responseJson.meals[i].strMeasure2}</li>
+          <li><input type="checkbox" name="ingredient">${responseJson.meals[i].strIngredient3}, ${responseJson.meals[i].strMeasure3}</li>
+        </ul>
+        </div>`)
     }
   }
   getDetails(responseJson)

@@ -47,3 +47,16 @@ body {
 .results {
   padding: 1%;
 }
+
+.recipe-details-hidden,
+.hidden {
+  display:none;
+}
+
+.recipe-details {
+  text-align: left;
+}
+
+.ingredients-list li {
+  list-style-type: none;
+}
