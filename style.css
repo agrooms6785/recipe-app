@@ -39,3 +39,11 @@ body {
 .search-bar {
   margin: 10px auto 10px auto;
 }
+
+.results-thumbnail {
+  max-width: 150px;
+}
+
+.results {
+  padding: 1%;
+}

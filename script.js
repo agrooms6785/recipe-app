@@ -20,10 +20,33 @@ function loadMore() {}
 //this function will populate the shopping list based on ingredients selected
 function displayShoppingList() {}
 
+//this function will get full recipe info including inredients
+function getDetails(responseJson) {
+  console.log(`'getDetails' ran`)
+  $('.recipe-details').on('click', function(event) {
+    event.preventDefault()
+    console.log(`button works!`)
+    // for (let a = a <responseJson.meals[i].
+    // $('.results').append(`<p>${responseJson.meals[i].strInstructions[a]}`)
+  })
+}
+
 //this function will display the receipe search results in the DOM
-function displayResults(responseJson, searchInput) {
+function displayResults(responseJson) {
   console.log(`'displayResults' ran`)
-  console.log(responseJson.message)
+  console.log(responseJson)
+  $('.results').empty()
+  $('.js-error-msg').empty()
+  for (let i=0; i <responseJson.meals.length; i++) {
+    if (responseJson.meals.length === 0) {
+      $('.results').append(`No recipes found by that name. Try again.`)
+    } else {
+      $('.results').append(`<h3>${responseJson.meals[i].strMeal}</h3>
+        <img class="results-thumbnail" src="${responseJson.meals[i].strMealThumb}" alt="a thumbnail image of ${responseJson.meals[i].strMealThumb}"><br>
+        <button class="recipe-details" type="button" name="details-button">click for recipe details</button>`)
+    }
+  }
+  getDetails(responseJson)
 }
 
 //this function will fetch cocktail recipes from the CocktailDB API
@@ -37,14 +60,12 @@ function getMealRecipes(searchInput) {
   fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${searchInput}`)
     .then(response => {
       if (response.ok) {
-        console.log(response.json())
         return response.json()
       }
       throw new Error(response.statusText)
     })
     .then(responseJson =>
-      // console.log(responseJson))
-      displayResults(responseJson, searchInput))
+      displayResults(responseJson))
     .catch(err => {
       $('.js-err-msg').append(`Something went wrong: ${err.message}`)
     })
