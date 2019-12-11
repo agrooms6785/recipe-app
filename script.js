@@ -32,8 +32,34 @@ function getDetails(responseJson) {
 }
 
 //this function will display the receipe search results in the DOM
-function displayResults(responseJson) {
-  console.log(`'displayResults' ran`)
+// function displayCocktailResults(responseJson) {
+//   console.log(`'displayCocktailResults' ran`)
+//   console.log(responseJson)
+//   $('.results').empty()
+//   $('.js-error-msg').empty()
+//   for (let i=0; i <responseJson.drinks.length; i++) {
+//     if (responseJson.drinks.length === 0) {
+//       $('.results').append(`No cocktails found by that name. Try again.`)
+//     } else {
+//       $('.results').append(`<h3>${responseJson.drinks[i].strDrink}</h3>
+//         <img class="results-thumbnail" src="${responseJson.drinks[i].strDrinkThumb}" alt="a thumbnail image of ${responseJson.drinks[i].strDrinkThumb}"><br>
+//         <button class="details-button" type="button" name="details-button">click for recipe details</button>
+//         <div class="recipe-details recipe-details-hidden">
+//           <p>Instructions: ${responseJson.drinks[i].strInstructions}</p><br>
+//         <ul class="ingredients-list">
+//           <li><input type="checkbox" name="ingredient">${responseJson.drinks[i].strIngredient1}, ${responseJson.drinks[i].strMeasure1}</li>
+//           <li><input type="checkbox" name="ingredient">${responseJson.drinks[i].strIngredient2}, ${responseJson.drinks[i].strMeasure2}</li>
+//           <li><input type="checkbox" name="ingredient">${responseJson.drinks[i].strIngredient3}, ${responseJson.drinks[i].strMeasure3}</li>
+//         </ul>
+//         </div>`)
+//     }
+//   }
+//   getDetails(responseJson)
+// }
+
+//this function will display the receipe search results in the DOM
+function displayRecipeResults(responseJson) {
+  console.log(`'displayRecipeResults' ran`)
   console.log(responseJson)
   $('.results').empty()
   $('.js-error-msg').empty()
@@ -57,9 +83,21 @@ function displayResults(responseJson) {
   getDetails(responseJson)
 }
 
-//this function will fetch cocktail recipes from the CocktailDB API
+// this function will fetch cocktail recipes from the CocktailDB API
 // function getCocktailRecipes(searchInput) {
 //   console.log(`'getCocktailRecipes' has run`)
+//   fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${searchInput}`)
+//     .then(response => {
+//       if (response.ok) {
+//         return response.json()
+//       }
+//       throw new Error(response.statusText)
+//     })
+//     .then(responseJson =>
+//       displayCocktailResults(responseJson))
+//     .catch(err => {
+//       $('.js-err-msg').append(`Something went wrong: ${err.message}`)
+//     })
 // }
 
 //this function will fetch the recipes from the MealDB API
@@ -73,7 +111,9 @@ function getMealRecipes(searchInput) {
       throw new Error(response.statusText)
     })
     .then(responseJson =>
-      displayResults(responseJson))
+      displayRecipeResults(responseJson))
+    // .then(responseJson =>
+    //   displayCocktailResults(responseJson))
     .catch(err => {
       $('.js-err-msg').append(`Something went wrong: ${err.message}`)
     })
