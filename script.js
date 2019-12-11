@@ -26,8 +26,7 @@ function getDetails(responseJson) {
   $('.details-button').on('click', function(event) {
     event.preventDefault()
     console.log(`button works!`)
-    // $('button[name="details-button"]').addClass('hidden')
-    $(this).next().removeClass('recipe-details-hidden')
+    $(this).next().toggleClass('recipe-details-hidden')
   })
 }
 
@@ -112,7 +111,7 @@ function getMealRecipes(searchInput) {
       throw new Error(response.statusText)
     })
     .then(responseJson => {
-      if (responseJson.meals === 0) {
+      if (responseJson.meals === null) {
          getCocktailRecipes(searchInput)
        } else {
         displayRecipeResults(responseJson)
