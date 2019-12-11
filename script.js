@@ -11,14 +11,17 @@ function manualAdd() {}
 //this function will allow user to toggle through shopping list items to delete them
 function deleteItems() {}
 
+//this function will populate the shopping list based on ingredients selected
+function displayShoppingList() {}
+
 //this function will handle adding items to the shopping list
-function addItems() {}
+function addItems() {
+}
 
 //this function will display additional search results when the button is clicked
 function loadMore() {}
 
-//this function will populate the shopping list based on ingredients selected
-function displayShoppingList() {}
+
 
 //this function will get full recipe info including inredients
 function getDetails(responseJson) {
@@ -86,7 +89,7 @@ function displayRecipeResults(responseJson) {
 // this function will fetch cocktail recipes from the CocktailDB API
 function getCocktailRecipes(searchInput, responseJson) {
   console.log(`'getCocktailRecipes' has run`)
-  fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${searchInput}`)
+  fetch(`https://www.thecocktaildb.com/api/json/v2/9973533/search.php?s=${searchInput}`)
     .then(response => {
       if (response.ok) {
         return response.json()
@@ -103,7 +106,7 @@ function getCocktailRecipes(searchInput, responseJson) {
 //this function will fetch the recipes from the MealDB API
 function getMealRecipes(searchInput) {
   console.log(`'getMealRecipes' has run`)
-  fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${searchInput}`)
+  fetch(`https://www.themealdb.com/api/json/v2/9973533/search.php?s=${searchInput}`)
     .then(response => {
       if (response.ok) {
         return response.json()
