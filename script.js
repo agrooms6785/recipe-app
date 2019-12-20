@@ -16,25 +16,31 @@ function displayShoppingList() {}
 // }
 
 // this function will handle adding items to the shopping list
-function addItems() {
+function addItems(responseJson) {
   console.log(`'addItems' ran`)
-  // if ($('input[name="ingredient"]').is(':checked')) {
-  //   $('.shop-list').append(`<li>`)
-  }
-// }
+  $('.add-to-list').on('click', function(event) {
+    event.preventDefault()
+    console.log(`'addItems' button works!`)
+    $('.shopping-list-div').addClass('show-list')
+    let checked = []
+    $('input:checkbox:checked').map(function() {
+      checked.push($(this).val())
+    })
+    for (let j=0; j < checked.length; j++) {
+      $('.shop-list').append(`<li>${checked[j]}</li>`)
+    }
+    console.log(checked)
+    })
+}
 
-function selectAll() {
+function selectAll(responseJson) {
   console.log(`'selectAll' ran`)
-  $('.recipe-details').on('click', '.select-all', function(event) {
+  $('.select-all').on('click', function(event) {
     event.preventDefault()
     console.log(`'select all' button works!`)
     $('.cb-class').prop('checked', true)
-    // $('.cb-class').prop('checked', $(this).prop('checked'))
   })
 }
-
-//this function will display additional search results when the button is clicked
-// function loadMore() {}
 
 //this function will get full recipe info including inredients
 function getDetails(responseJson) {
@@ -44,7 +50,7 @@ function getDetails(responseJson) {
     console.log(`button works!`)
     $(this).next().toggleClass('recipe-details-hidden')
   })
-  selectAll()
+  selectAll(responseJson)
   addItems()
 }
 
@@ -86,18 +92,20 @@ function displayRecipeResults(responseJson) {
     if (responseJson.meals.length === 0) {
       $('.results').append(`No recipes found by that name. Try again.`)
     } else {
-      $('.results').append(`<h3>${responseJson.meals[i].strMeal}</h3>
+      $('.results').append(`<div id="recipe${i}">
+        <h3>${responseJson.meals[i].strMeal}</h3>
         <img class="results-thumbnail" src="${responseJson.meals[i].strMealThumb}" alt="a thumbnail image of ${responseJson.meals[i].strMealThumb}"><br>
         <button class="details-button" type="button" name="details-button">click for recipe details</button>
         <div class="recipe-details recipe-details-hidden">
           <p>Instructions: ${responseJson.meals[i].strInstructions}</p><br>
         <ul class="ingredients-list">
-          <li><input type="checkbox" class="cb-class" name="ingredient">${responseJson.meals[i].strIngredient1}, ${responseJson.meals[i].strMeasure1}</li>
-          <li><input type="checkbox" class="cb-class" name="ingredient">${responseJson.meals[i].strIngredient2}, ${responseJson.meals[i].strMeasure2}</li>
-          <li><input type="checkbox" class="cb-class" name="ingredient">${responseJson.meals[i].strIngredient3}, ${responseJson.meals[i].strMeasure3}</li>
+          <li><input type="checkbox" class="cb-class" name="ingredient" value="${responseJson.meals[i].strIngredient1}">${responseJson.meals[i].strIngredient1}, ${responseJson.meals[i].strMeasure1}</li>
+          <li><input type="checkbox" class="cb-class" name="ingredient" value="${responseJson.meals[i].strIngredient2}">${responseJson.meals[i].strIngredient2}, ${responseJson.meals[i].strMeasure2}</li>
+          <li><input type="checkbox" class="cb-class" name="ingredient" value="${responseJson.meals[i].strIngredient3}">${responseJson.meals[i].strIngredient3}, ${responseJson.meals[i].strMeasure3}</li>
         </ul>
         <button class="select-all" type="button" name="select-all">select all</button><br>
         <button class="add-to-list" type="button" name="add-to-list">add to shopping list</button>
+        </div>
         </div>`)
     }
   }

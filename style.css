@@ -65,3 +65,12 @@ body {
   /* position: sticky; */
   display: none;
 }
+
+.show-list {
+  display: inline-block;
+}
+
+.shop-list li {
+  list-style-type: none;
+  text-align: left;
+}
