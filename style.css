@@ -62,5 +62,6 @@ body {
 }
 
 .shopping-list-div {
-  position: sticky;
+  /* position: sticky; */
+  display: none;
 }
