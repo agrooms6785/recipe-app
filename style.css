@@ -60,3 +60,7 @@ body {
 .ingredients-list li {
   list-style-type: none;
 }
+
+.shopping-list-div {
+  position: sticky;
+}

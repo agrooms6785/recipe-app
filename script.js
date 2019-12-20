@@ -1,10 +1,6 @@
 //this is my local js file
 'use strict'
 
-//  this is the test key for both APIs while in production stage
-// let apiKey = '1'
-// let mealURL =
-
 //this function will allow the user to manually add items to shopping list
 function manualAdd() {}
 
@@ -14,14 +10,31 @@ function deleteItems() {}
 //this function will populate the shopping list based on ingredients selected
 function displayShoppingList() {}
 
-//this function will handle adding items to the shopping list
+//this function will add all ingredients from a recipe to the Shopping list
+// function addAll() {
+//   console.log(`'addAll' ran`)
+// }
+
+// this function will handle adding items to the shopping list
 function addItems() {
+  console.log(`'addItems' ran`)
+  // if ($('input[name="ingredient"]').is(':checked')) {
+  //   $('.shop-list').append(`<li>`)
+  }
+// }
+
+function selectAll() {
+  console.log(`'selectAll' ran`)
+  $('.recipe-details').on('click', '.select-all', function(event) {
+    event.preventDefault()
+    console.log(`'select all' button works!`)
+    // $('.cb-class').prop('checked', true)
+    $('.cb-class').prop('checked', $(this).prop('checked'))
+  })
 }
 
 //this function will display additional search results when the button is clicked
-function loadMore() {}
-
-
+// function loadMore() {}
 
 //this function will get full recipe info including inredients
 function getDetails(responseJson) {
@@ -30,7 +43,11 @@ function getDetails(responseJson) {
     event.preventDefault()
     console.log(`button works!`)
     $(this).next().toggleClass('recipe-details-hidden')
+    $('.recipe-details').append(`<button class="select-all" type="button" name="select-all">select all</button><br>
+    <button class="add-to-list" type="button" name="add-to-list">add to shopping list</button>`)
   })
+  selectAll()
+  addItems()
 }
 
 // this function will display the receipe search results in the DOM
@@ -48,17 +65,16 @@ function displayCocktailResults(responseJson) {
         <button class="details-button" type="button" name="details-button">click for recipe details</button>
         <div class="recipe-details recipe-details-hidden">
           <p>Instructions: ${responseJson.drinks[i].strInstructions}</p><br>
-        <ul class="ingredients-list">
-          <li><input type="checkbox" name="ingredient">${responseJson.drinks[i].strIngredient1}, ${responseJson.drinks[i].strMeasure1}</li>
-          <li><input type="checkbox" name="ingredient">${responseJson.drinks[i].strIngredient2}, ${responseJson.drinks[i].strMeasure2}</li>
-          <li><input type="checkbox" name="ingredient">${responseJson.drinks[i].strIngredient3}, ${responseJson.drinks[i].strMeasure3}</li>
+        <ul class="ingredients-list" id="cb-ck-all">
+          <li><input type="checkbox" class="cb-class" name="ingredient">${responseJson.drinks[i].strIngredient1}, ${responseJson.drinks[i].strMeasure1}</li>
+          <li><input type="checkbox" class="cb-class" name="ingredient">${responseJson.drinks[i].strIngredient2}, ${responseJson.drinks[i].strMeasure2}</li>
+          <li><input type="checkbox" class="cb-class" name="ingredient">${responseJson.drinks[i].strIngredient3}, ${responseJson.drinks[i].strMeasure3}</li>
         </ul>
         </div>`)
     }
   }
   getDetails(responseJson)
 }
-
 
 //this function will display the receipe search results in the DOM
 function displayRecipeResults(responseJson) {
