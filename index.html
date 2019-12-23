@@ -17,16 +17,23 @@
   <div class="wrapper">
     <form id="search-form">
       <label for="search">Search bar:</label>
-      <input class="search-bar" type="text" name="search" value="" placeholder="food or cocktail recipes" required><br>
+      <input class="search-bar" type="text" name="search" placeholder="food or cocktail recipes" required><br>
       <input class="js-submit" type="submit" name="search-button" value="Click to search">
     </form>
     <div class="results"></div>
     <div class="js-err-msg"></div>
   </div>
   <div class="shopping-list-div">
-      <h3>Shopping List</h3>
+      <h2 class="list-h2">Shopping List</h3>
+      <div class="list-open">
+      <form id="shop-form">
+        <label for="manual-entry">Add an item:</label>
+        <input type="text" name="manual-entry" id="shopping-list-manual-entry" placeholder="e.g., broccoli">
+        <input type="submit" name="manual-add-button" class="manual-add-button" value="add item">
+      </form>
       <ul class="hidden-list shop-list">
       </ul>
+    </div>
   </div>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" charset="utf-8"></script>

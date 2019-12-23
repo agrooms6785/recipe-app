@@ -2,7 +2,12 @@
 'use strict'
 
 // this function will display or hide the shopping list on smaller screens
-function toggleShoppingList() {}
+function toggleShoppingList() {
+  console.log(`'toggleShoppingList' ran`)
+  $('.list-h3').on('click', function(event) {
+    $('.list-open').toggleClass('list-closed')
+  })
+}
 
 //this function will allow user to toggle through shopping list items to delete them
 function deleteItems() {
@@ -12,7 +17,7 @@ function deleteItems() {
 //this function will allow the user to manually add items to shopping list
 function manualAdd(newItem) {
   console.log(`'manualAdd' ran`)
-  $('.manual-add-button').on('click', function(event) {
+  $('#shop-form').on('submit', function(event) {
     event.preventDefault()
     console.log(`'manualAdd' button works!`)
     const newItem = $('#shopping-list-manual-entry').val()
@@ -28,32 +33,17 @@ function addItems(responseJson) {
     event.preventDefault()
     console.log(`'addItems' button works!`)
     $('.shopping-list-div').addClass('show-list')
-    $('.shop-list').append(`<form id="shop-form">
-    <label for="manual-entry">Add an item:</label>
-    <input type="text" name="manual-entry" id="shopping-list-manual-entry" placeholder="e.g., broccoli">
-    <button type="button" name="manual-add-button" class="manual-add-button">add item</button>
-    </form>`)
     let checked = []
     $('input[name="ingredient"]:checked').map(function() {
       checked.push($(this).val())
     })
     for (let j=0; j<checked.length; j++) {
       $('.shop-list').append(`<li><input type="checkbox" name="list-ingredient" value="${checked[j]}" unchecked><label for="list-ingredient" class="strikeThis">${checked[j]}</label></li>`)
-    }
-    console.log(checked)
+  }
     manualAdd()
     deleteItems()
   })
 }
-
-// function selectAll(responseJson) {
-//   console.log(`'selectAll' ran`)
-//   $('.select-all').on('click', function(event) {
-//     event.preventDefault()
-//     console.log(`'select all' button works!`)
-//     $('.cb-class').prop('checked', true)
-//   })
-// }
 
 //this function will get full recipe info including inredients
 function getDetails(responseJson) {
@@ -63,7 +53,6 @@ function getDetails(responseJson) {
     console.log(`'getDetails' button works!`)
     $(this).next().toggleClass('recipe-details-hidden')
   })
-  // selectAll(responseJson)
   addItems()
 }
 
@@ -71,8 +60,6 @@ function getDetails(responseJson) {
 function displayCocktailResults(responseJson) {
   console.log(`'displayCocktailResults' ran`)
   console.log(responseJson)
-  $('.results').empty()
-  $('.js-err-msg').empty()
   for (let i=0; i <responseJson.drinks.length; i++) {
     if (responseJson.drinks.length === 0) {
       $('.results').append(`No cocktails found by that name. Try again.`)
@@ -100,8 +87,6 @@ function displayCocktailResults(responseJson) {
 function displayRecipeResults(responseJson) {
   console.log(`'displayRecipeResults' ran`)
   console.log(responseJson)
-  $('.results').empty()
-  $('.js-err-msg').empty()
   for (let i=0; i <responseJson.meals.length; i++) {
     if (responseJson.meals.length === 0) {
       $('.results').append(`No recipes found by that name. Try again.`)
@@ -116,6 +101,13 @@ function displayRecipeResults(responseJson) {
       <li><input type="checkbox" class="cb-class" name="ingredient" value="${responseJson.meals[i].strIngredient1}">${responseJson.meals[i].strIngredient1}, ${responseJson.meals[i].strMeasure1}</li>
       <li><input type="checkbox" class="cb-class" name="ingredient" value="${responseJson.meals[i].strIngredient2}">${responseJson.meals[i].strIngredient2}, ${responseJson.meals[i].strMeasure2}</li>
       <li><input type="checkbox" class="cb-class" name="ingredient" value="${responseJson.meals[i].strIngredient3}">${responseJson.meals[i].strIngredient3}, ${responseJson.meals[i].strMeasure3}</li>
+      <li><input type="checkbox" class="cb-class" name="ingredient" value="${responseJson.meals[i].strIngredient4}">${responseJson.meals[i].strIngredient4}, ${responseJson.meals[i].strMeasure4}</li>
+      <li><input type="checkbox" class="cb-class" name="ingredient" value="${responseJson.meals[i].strIngredient5}">${responseJson.meals[i].strIngredient5}, ${responseJson.meals[i].strMeasure5}</li>
+      <li><input type="checkbox" class="cb-class" name="ingredient" value="${responseJson.meals[i].strIngredient6}">${responseJson.meals[i].strIngredient6}, ${responseJson.meals[i].strMeasure6}</li>
+      <li><input type="checkbox" class="cb-class" name="ingredient" value="${responseJson.meals[i].strIngredient7}">${responseJson.meals[i].strIngredient7}, ${responseJson.meals[i].strMeasure7}</li>
+      <li><input type="checkbox" class="cb-class" name="ingredient" value="${responseJson.meals[i].strIngredient8}">${responseJson.meals[i].strIngredient8}, ${responseJson.meals[i].strMeasure8}</li>
+      <li><input type="checkbox" class="cb-class" name="ingredient" value="${responseJson.meals[i].strIngredient9}">${responseJson.meals[i].strIngredient9}, ${responseJson.meals[i].strMeasure9}</li>
+      <li><input type="checkbox" class="cb-class" name="ingredient" value="${responseJson.meals[i].strIngredient10}">${responseJson.meals[i].strIngredient10}, ${responseJson.meals[i].strMeasure10}</li>
       </ul>
       <button class="add-to-list" type="button" name="add-to-list">add to shopping list</button>
       </div>
@@ -124,6 +116,7 @@ function displayRecipeResults(responseJson) {
   }
   getDetails(responseJson)
 }
+
 
 // this function will fetch cocktail recipes from the CocktailDB API
 function getCocktailRecipes(searchInput, responseJson) {
@@ -145,6 +138,8 @@ function getCocktailRecipes(searchInput, responseJson) {
       .catch(err => {
         $('.js-err-msg').append(`Something went wrong: ${err.message}`)
       })
+      $('.results').empty()
+      $('.js-err-msg').empty()
     }
 
 //this function will fetch the recipes from the MealDB API
@@ -167,21 +162,27 @@ function getMealRecipes(searchInput, responseJson) {
         .catch(err => {
           $('.js-err-msg').append(`Something went wrong: ${err.message}`)
         })
+        $('.results').empty()
+        $('.js-err-msg').empty()
       }
 
 //this function will handle the search submit
 function handleSearch() {
-        $('.js-submit').on('click', function(event) {
-          console.log(`'handleSearch' has run`)
-          event.preventDefault()
-          let searchInput = $('input[name="search"]').val().toLowerCase()
-          getMealRecipes(searchInput)
-          $('#search-form')[0].reset()
-        })
-      }
+  $('.js-submit').on('click', function(event) {
+  console.log(`'handleSearch' has run`)
+  event.preventDefault()
+  if (!$('input[name="search"]').val()) {
+    alert('Search term required')
+  } else {
+  let searchInput = $('input[name="search"]').val().toLowerCase()
+  getMealRecipes(searchInput)
+}
+  $('#search-form')[0].reset()
+  })
+}
 
 $(function() {
   console.log( "your app has loaded!" )
   handleSearch()
-  // manualAdd()
+  toggleShoppingList()
 })

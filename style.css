@@ -90,3 +90,15 @@ body {
 input[name="list-ingredient"]:checked + .strikeThis {
   text-decoration: line-through;
 }
+
+.list-h2 {
+  text-align: center;
+}
+
+h2:hover {
+  background-color: gray;
+}
+
+.list-closed {
+  display: none;
+}
