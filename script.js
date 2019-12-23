@@ -1,11 +1,13 @@
 //this is my local js file
 'use strict'
 
-//this function will allow user to toggle through shopping list items to delete them
-function deleteItems() {}
+// this function will display or hide the shopping list on smaller screens
+function toggleShoppingList() {}
 
-//this function will populate the shopping list based on ingredients selected
-// function displayShoppingList() {}
+//this function will allow user to toggle through shopping list items to delete them
+function deleteItems() {
+  console.log(`'deleteItems' ran`)
+}
 
 //this function will allow the user to manually add items to shopping list
 function manualAdd(newItem) {
@@ -14,8 +16,8 @@ function manualAdd(newItem) {
     event.preventDefault()
     console.log(`'manualAdd' button works!`)
     const newItem = $('#shopping-list-manual-entry').val()
-    $('#shopping-list-manual-entry').val('')
-    $('.shop-list').prepend(`<li><input type="checkbox" name="ingredient" value="${newItem}" unchecked>${newItem}</li>`)
+    $('.shop-list').append(`<li><input type="checkbox" name="list-ingredient" value="${newItem}" unchecked><label for="list-ingredient" class="strikeThis">${newItem}</label></li>`)
+    $('#shop-form')[0].reset()
   })
 }
 
@@ -26,42 +28,42 @@ function addItems(responseJson) {
     event.preventDefault()
     console.log(`'addItems' button works!`)
     $('.shopping-list-div').addClass('show-list')
-    $('.shop-list').append(`<form id="js-list-form">
-    <label for="manual-entry">Add an item</label>
+    $('.shop-list').append(`<form id="shop-form">
+    <label for="manual-entry">Add an item:</label>
     <input type="text" name="manual-entry" id="shopping-list-manual-entry" placeholder="e.g., broccoli">
-    <button type="submit" name="manual-add-button" class="manual-add-button">Add item</button>
+    <button type="button" name="manual-add-button" class="manual-add-button">add item</button>
     </form>`)
     let checked = []
-    $('input:checkbox:checked').map(function() {
+    $('input[name="ingredient"]:checked').map(function() {
       checked.push($(this).val())
     })
     for (let j=0; j<checked.length; j++) {
-      $('.shop-list').append(`<li><input type="checkbox" name="ingredient" value="${checked[j]}" unchecked>${checked[j]}</li>`)
+      $('.shop-list').append(`<li><input type="checkbox" name="list-ingredient" value="${checked[j]}" unchecked><label for="list-ingredient" class="strikeThis">${checked[j]}</label></li>`)
     }
     console.log(checked)
+    manualAdd()
+    deleteItems()
   })
-  manualAdd()
 }
 
-function selectAll(responseJson) {
-  console.log(`'selectAll' ran`)
-  $('.select-all').on('click', function(event) {
-    event.preventDefault()
-    console.log(`'select all' button works!`)
-    $('.cb-class').prop('checked', true)
-  }
-)
-}
+// function selectAll(responseJson) {
+//   console.log(`'selectAll' ran`)
+//   $('.select-all').on('click', function(event) {
+//     event.preventDefault()
+//     console.log(`'select all' button works!`)
+//     $('.cb-class').prop('checked', true)
+//   })
+// }
 
 //this function will get full recipe info including inredients
 function getDetails(responseJson) {
   console.log(`'getDetails' ran`)
   $('.details-button').on('click', function(event) {
     event.preventDefault()
-    console.log(`button works!`)
+    console.log(`'getDetails' button works!`)
     $(this).next().toggleClass('recipe-details-hidden')
   })
-  selectAll(responseJson)
+  // selectAll(responseJson)
   addItems()
 }
 
@@ -70,7 +72,7 @@ function displayCocktailResults(responseJson) {
   console.log(`'displayCocktailResults' ran`)
   console.log(responseJson)
   $('.results').empty()
-  $('.js-error-msg').empty()
+  $('.js-err-msg').empty()
   for (let i=0; i <responseJson.drinks.length; i++) {
     if (responseJson.drinks.length === 0) {
       $('.results').append(`No cocktails found by that name. Try again.`)
@@ -86,7 +88,6 @@ function displayCocktailResults(responseJson) {
       <li><input type="checkbox" class="cb-class" name="ingredient" value="${responseJson.drinks[i].strIngredient2}">${responseJson.drinks[i].strIngredient2}, ${responseJson.drinks[i].strMeasure2}</li>
       <li><input type="checkbox" class="cb-class" name="ingredient" value="${responseJson.drinks[i].strIngredient3}">${responseJson.drinks[i].strIngredient3}, ${responseJson.drinks[i].strMeasure3}</li>
       </ul>
-      <button class="select-all" type="button" name="select-all">select all</button><br>
       <button class="add-to-list" type="button" name="add-to-list">add to shopping list</button>
       </div>
       </div>`)
@@ -100,7 +101,7 @@ function displayRecipeResults(responseJson) {
   console.log(`'displayRecipeResults' ran`)
   console.log(responseJson)
   $('.results').empty()
-  $('.js-error-msg').empty()
+  $('.js-err-msg').empty()
   for (let i=0; i <responseJson.meals.length; i++) {
     if (responseJson.meals.length === 0) {
       $('.results').append(`No recipes found by that name. Try again.`)
@@ -116,7 +117,6 @@ function displayRecipeResults(responseJson) {
       <li><input type="checkbox" class="cb-class" name="ingredient" value="${responseJson.meals[i].strIngredient2}">${responseJson.meals[i].strIngredient2}, ${responseJson.meals[i].strMeasure2}</li>
       <li><input type="checkbox" class="cb-class" name="ingredient" value="${responseJson.meals[i].strIngredient3}">${responseJson.meals[i].strIngredient3}, ${responseJson.meals[i].strMeasure3}</li>
       </ul>
-      <button class="select-all" type="button" name="select-all">select all</button><br>
       <button class="add-to-list" type="button" name="add-to-list">add to shopping list</button>
       </div>
       </div>`)
@@ -135,8 +135,13 @@ function getCocktailRecipes(searchInput, responseJson) {
       }
       throw new Error(response.statusText)
     })
-    .then(responseJson =>
-      displayCocktailResults(responseJson))
+    .then(responseJson => {
+      if (responseJson.drinks === null) {
+        $('.js-err-msg').append(`No results found. Try a new search.`)
+      } else {
+      displayCocktailResults(responseJson)
+    }
+  })
       .catch(err => {
         $('.js-err-msg').append(`Something went wrong: ${err.message}`)
       })
@@ -178,4 +183,5 @@ function handleSearch() {
 $(function() {
   console.log( "your app has loaded!" )
   handleSearch()
+  // manualAdd()
 })
