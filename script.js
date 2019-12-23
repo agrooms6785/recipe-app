@@ -4,7 +4,7 @@
 // this function will display or hide the shopping list on smaller screens
 function toggleShoppingList() {
   console.log(`'toggleShoppingList' ran`)
-  $('.list-h3').on('click', function(event) {
+  $('.list-h2').on('click', function(event) {
     $('.list-open').toggleClass('list-closed')
   })
 }
