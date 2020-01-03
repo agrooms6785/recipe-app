@@ -93,14 +93,16 @@ function displayRecipeResults(responseJson) {
       <img class="results-thumbnail" src="${responseJson.meals[i].strMealThumb}" alt="a thumbnail image of ${responseJson.meals[i].strMealThumb}"><br>
       <button class="details-button" type="button" name="details-button">click for recipe details</button>
       <div class="recipe-details recipe-details-hidden">
-      <p>Instructions: ${responseJson.meals[i].strInstructions}</p><br>`)
+      <p>Instructions: ${responseJson.meals[i].strInstructions}</p><br>
+      <button class="add-to-list" type="button" name="add-to-list">add to shopping list</button>
+      </div>`)
 
       for (let a=1; a<20; a++) {
-        if (responseJson.meals[i].strIngredient[a] !== null) {
-          $('.results').append(`<ul class="ingredients-list">
-          <li><input type="checkbox" class="cb-class" name="ingredient" value="${responseJson.meals[i].strIngredient[a]}">${responseJson.meals[i].strIngredient[a]}, ${responseJson.meals[i].strMeasure[a]}</li>
+        if (responseJson.meals[i]["strIngredient" + a] !== null) {
+          $('.results').append(`<div class="recipe-details recipe-details-hidden">
+          <ul class="ingredients-list">
+          <li><input type="checkbox" class="cb-class" name="ingredient" value="${responseJson.meals[i]["strIngredient" + a]}">${responseJson.meals[i]["strIngredient" + a]}, ${responseJson.meals[i]["strMeasure" + a]}</li>
           </ul>
-          <button class="add-to-list" type="button" name="add-to-list">add to shopping list</button>
           </div>`)
       }
     }
