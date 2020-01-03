@@ -9,11 +9,6 @@ function toggleShoppingList() {
   })
 }
 
-//this function will allow user to toggle through shopping list items to delete them
-// function deleteItems() {
-//   console.log(`'deleteItems' ran`)
-// }
-
 //this function will allow the user to manually add items to shopping list
 function manualAdd(newItem) {
   console.log(`'manualAdd' ran`)
@@ -41,7 +36,6 @@ function addItems(responseJson) {
       $('.shop-list').append(`<li><input type="checkbox" name="list-ingredient" value="${checked[j]}" unchecked><label for="list-ingredient" class="strikeThis">${checked[j]}</label></li>`)
   }
     manualAdd()
-    deleteItems()
   })
 }
 
@@ -115,7 +109,6 @@ function displayRecipeResults(responseJson) {
 }
   getDetails(responseJson)
 }
-
 
 // this function will fetch cocktail recipes from the CocktailDB API
 function getCocktailRecipes(searchInput, responseJson) {
