@@ -10,9 +10,9 @@ function toggleShoppingList() {
 }
 
 //this function will allow user to toggle through shopping list items to delete them
-function deleteItems() {
-  console.log(`'deleteItems' ran`)
-}
+// function deleteItems() {
+//   console.log(`'deleteItems' ran`)
+// }
 
 //this function will allow the user to manually add items to shopping list
 function manualAdd(newItem) {
@@ -51,7 +51,7 @@ function getDetails(responseJson) {
   $('.details-button').on('click', function(event) {
     event.preventDefault()
     console.log(`'getDetails' button works!`)
-    $(this).next().toggleClass('recipe-details-hidden')
+    $('div.recipe-details').toggleClass('recipe-details-hidden')
   })
   addItems()
 }
@@ -66,18 +66,23 @@ function displayCocktailResults(responseJson) {
     } else {
       $('.results').append(`<h3>${responseJson.drinks[i].strDrink}</h3>
       <img class="results-thumbnail" src="${responseJson.drinks[i].strDrinkThumb}" alt="a thumbnail image of ${responseJson.drinks[i].strDrinkThumb}"><br>
-      <button class="details-button" type="button" name="details-button">click for recipe details</button>
+      <button class="details-button" type="button" name="details-button">click for cocktail recipe details</button>
       <div class="recipe-details recipe-details-hidden">
       <p>Instructions: ${responseJson.drinks[i].strInstructions}</p><br>
-      <ul class="ingredients-list">
-      <li><input type="checkbox" class="cb-class" name="ingredient" value="${responseJson.drinks[i].strIngredient1}">${responseJson.drinks[i].strIngredient1}, ${responseJson.drinks[i].strMeasure1}</li>
-      <li><input type="checkbox" class="cb-class" name="ingredient" value="${responseJson.drinks[i].strIngredient2}">${responseJson.drinks[i].strIngredient2}, ${responseJson.drinks[i].strMeasure2}</li>
-      <li><input type="checkbox" class="cb-class" name="ingredient" value="${responseJson.drinks[i].strIngredient3}">${responseJson.drinks[i].strIngredient3}, ${responseJson.drinks[i].strMeasure3}</li>
-      </ul>
       <button class="add-to-list" type="button" name="add-to-list">add to shopping list</button>
       </div>`)
+
+      for (let a=1; a<16; a++) {
+        if (responseJson.drinks[i]["strIngredient" + a] !== null && responseJson.drinks[i]["strIngredient" + a] !== "") {
+          $('.results').append(`<div class="recipe-details recipe-details-hidden">
+            <ul class="ingredients-list">
+            <li><input type="checkbox" class="cb-class" name="ingredient" value="${responseJson.drinks[i]["strIngredient" + a]}">${responseJson.drinks[i]["strIngredient" + a]}, ${responseJson.drinks[i]["strMeasure" + a]}</li>
+            </ul>
+            </div>`)
+          }
+        }
+      }
     }
-  }
   getDetails(responseJson)
 }
 
@@ -97,8 +102,8 @@ function displayRecipeResults(responseJson) {
       <button class="add-to-list" type="button" name="add-to-list">add to shopping list</button>
       </div>`)
 
-      for (let a=1; a<20; a++) {
-        if (responseJson.meals[i]["strIngredient" + a] !== null) {
+      for (let a=1; a<21; a++) {
+        if (responseJson.meals[i]["strIngredient" + a] !== null && responseJson.meals[i]["strIngredient" + a] !== "") {
           $('.results').append(`<div class="recipe-details recipe-details-hidden">
           <ul class="ingredients-list">
           <li><input type="checkbox" class="cb-class" name="ingredient" value="${responseJson.meals[i]["strIngredient" + a]}">${responseJson.meals[i]["strIngredient" + a]}, ${responseJson.meals[i]["strMeasure" + a]}</li>
