@@ -64,8 +64,7 @@ function displayCocktailResults(responseJson) {
     if (responseJson.drinks.length === 0) {
       $('.results').append(`No cocktails found by that name. Try again.`)
     } else {
-      $('.results').append(`<div id="recipe:${i}">
-      <h3>${responseJson.drinks[i].strDrink}</h3>
+      $('.results').append(`<h3>${responseJson.drinks[i].strDrink}</h3>
       <img class="results-thumbnail" src="${responseJson.drinks[i].strDrinkThumb}" alt="a thumbnail image of ${responseJson.drinks[i].strDrinkThumb}"><br>
       <button class="details-button" type="button" name="details-button">click for recipe details</button>
       <div class="recipe-details recipe-details-hidden">
@@ -76,7 +75,6 @@ function displayCocktailResults(responseJson) {
       <li><input type="checkbox" class="cb-class" name="ingredient" value="${responseJson.drinks[i].strIngredient3}">${responseJson.drinks[i].strIngredient3}, ${responseJson.drinks[i].strMeasure3}</li>
       </ul>
       <button class="add-to-list" type="button" name="add-to-list">add to shopping list</button>
-      </div>
       </div>`)
     }
   }
@@ -91,29 +89,23 @@ function displayRecipeResults(responseJson) {
     if (responseJson.meals.length === 0) {
       $('.results').append(`No recipes found by that name. Try again.`)
     } else {
-      $('.results').append(`<div id="recipe:${i}">
-      <h3>${responseJson.meals[i].strMeal}</h3>
+      $('.results').append(`<h3>${responseJson.meals[i].strMeal}</h3>
       <img class="results-thumbnail" src="${responseJson.meals[i].strMealThumb}" alt="a thumbnail image of ${responseJson.meals[i].strMealThumb}"><br>
       <button class="details-button" type="button" name="details-button">click for recipe details</button>
       <div class="recipe-details recipe-details-hidden">
-      <p>Instructions: ${responseJson.meals[i].strInstructions}</p><br>
-      <ul class="ingredients-list">
-      <li><input type="checkbox" class="cb-class" name="ingredient" value="${responseJson.meals[i].strIngredient1}">${responseJson.meals[i].strIngredient1}, ${responseJson.meals[i].strMeasure1}</li>
-      <li><input type="checkbox" class="cb-class" name="ingredient" value="${responseJson.meals[i].strIngredient2}">${responseJson.meals[i].strIngredient2}, ${responseJson.meals[i].strMeasure2}</li>
-      <li><input type="checkbox" class="cb-class" name="ingredient" value="${responseJson.meals[i].strIngredient3}">${responseJson.meals[i].strIngredient3}, ${responseJson.meals[i].strMeasure3}</li>
-      <li><input type="checkbox" class="cb-class" name="ingredient" value="${responseJson.meals[i].strIngredient4}">${responseJson.meals[i].strIngredient4}, ${responseJson.meals[i].strMeasure4}</li>
-      <li><input type="checkbox" class="cb-class" name="ingredient" value="${responseJson.meals[i].strIngredient5}">${responseJson.meals[i].strIngredient5}, ${responseJson.meals[i].strMeasure5}</li>
-      <li><input type="checkbox" class="cb-class" name="ingredient" value="${responseJson.meals[i].strIngredient6}">${responseJson.meals[i].strIngredient6}, ${responseJson.meals[i].strMeasure6}</li>
-      <li><input type="checkbox" class="cb-class" name="ingredient" value="${responseJson.meals[i].strIngredient7}">${responseJson.meals[i].strIngredient7}, ${responseJson.meals[i].strMeasure7}</li>
-      <li><input type="checkbox" class="cb-class" name="ingredient" value="${responseJson.meals[i].strIngredient8}">${responseJson.meals[i].strIngredient8}, ${responseJson.meals[i].strMeasure8}</li>
-      <li><input type="checkbox" class="cb-class" name="ingredient" value="${responseJson.meals[i].strIngredient9}">${responseJson.meals[i].strIngredient9}, ${responseJson.meals[i].strMeasure9}</li>
-      <li><input type="checkbox" class="cb-class" name="ingredient" value="${responseJson.meals[i].strIngredient10}">${responseJson.meals[i].strIngredient10}, ${responseJson.meals[i].strMeasure10}</li>
-      </ul>
-      <button class="add-to-list" type="button" name="add-to-list">add to shopping list</button>
-      </div>
-      </div>`)
+      <p>Instructions: ${responseJson.meals[i].strInstructions}</p><br>`)
+
+      for (let a=1; a<20; a++) {
+        if (responseJson.meals[i].strIngredient[a] !== null) {
+          $('.results').append(`<ul class="ingredients-list">
+          <li><input type="checkbox" class="cb-class" name="ingredient" value="${responseJson.meals[i].strIngredient[a]}">${responseJson.meals[i].strIngredient[a]}, ${responseJson.meals[i].strMeasure[a]}</li>
+          </ul>
+          <button class="add-to-list" type="button" name="add-to-list">add to shopping list</button>
+          </div>`)
+      }
     }
   }
+}
   getDetails(responseJson)
 }
 
