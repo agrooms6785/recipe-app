@@ -105,7 +105,7 @@ function createDomElements(newDataArr) {
   //     }
   //     $('.ingredients-list').append(listItem)
   //   }
-  // }
+  }
   getDetails()
 }
 
