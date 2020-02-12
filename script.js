@@ -10,7 +10,7 @@ function toggleShoppingList() {
 }
 
 //this function will allow the user to manually add items to shopping list
-function manualAdd(newItem) {
+function manualAdd() {
   console.log(`'manualAdd' ran`)
   $('#shop-form').on('submit', function(event) {
     event.preventDefault()
@@ -22,7 +22,7 @@ function manualAdd(newItem) {
 }
 
 // this function will handle adding items to the shopping list
-function addItems(responseJson) {
+function addItems() {
   console.log(`'addItems' ran`)
   $('.add-to-list').on('click', function(event) {
     event.preventDefault()
@@ -40,12 +40,13 @@ function addItems(responseJson) {
 }
 
 //this function will get full recipe info including inredients
-function getDetails(responseJson) {
+function getDetails() {
   console.log(`'getDetails' ran`)
   $('.details-button').on('click', function(event) {
     event.preventDefault()
     console.log(`'getDetails' button works!`)
     $('div.recipe-details').toggleClass('recipe-details-hidden')
+    // $(this).next().toggleClass('recipe-details-hidden')
   })
   addItems()
 }
@@ -80,20 +81,40 @@ function displayCocktailResults(responseJson) {
   getDetails(responseJson)
 }
 
-//this function will create the DOM elements to be added in the display function
+// ignore this for now. If need a separate function to make ingredient UL/LI in dom
+// function createIngList() {}
+
+// this function will create the DOM elements to be added in the display function
 function createDomElements(newDataArr) {
   console.log(`'createDomElements' ran`)
-	// for (let i = 0; i < newDataArray.length; i++) {
-	// 	$('.results').append(TK)
-	// }
+  for (let i = 0; i < newDataArr.length; i++) {
+		$('.results').append(`<div class="recipe_id${i}"><h3>${newDataArr[i].meal}</h3>
+    <img class="results-thumbnail" src="${newDataArr[i].thumb}" alt="a thumbnail image of ${newDataArr[i].thumb}"><br>
+    <button class="details-button" type="button" name="details-button">click for recipe details</button>
+    <div class="recipe-details recipe-details-hidden">
+    <p><strong>Instructions</strong>: ${newDataArr[i].instructions}</p><br>
+    <button class="add-to-list" type="button" name="add-to-list">add to shopping list</button><br>
+    <ul class="ingredients-list">
+    </ul></div></div>`)
+
+// HAVING TROUBLE WITH THIS 
+    for (let b=0; b < newDataArr[i].ingredients.length; b++) {
+      let listItem = ''
+      if (newDataArr[i].ingredients[b] !== null && newDataArr[i].ingredients[b] !== "") {
+        listItem = <li><input type="checkbox" class="cb-class" name="ingredient" value="${newDataArr[i].ingredients[b]}, ${newDataArr[i].measurements[b]}">${newDataArr[i].ingredients[b]}, ${newDataArr[i].measurements[b]}</li>
+      }
+      $('.ingredients-list').append(listItem)
+    }
+  }
+  getDetails()
 }
 
-//this function adds the ingredients and measurements into new arrays
-function addIngredients(newDataArr) {
+// this function adds the ingredients and measurements into new arrays
+function addIngredients(newDataArr, responseJson) {
   console.log(`'addIngredients' ran`)
 	return new Promise(function (fulfill, reject) {
     for (let i = 0; i < responseJson.meals.length; i++) {
-      for (let a = 0; a < 20; a++) {
+      for (let a = 1; a < 21; a++) {
         if (responseJson.meals[i]["strIngredient" + a] !== null && responseJson.meals[i]["strIngredient" + a] !== "") {
           newDataArr[i].ingredients.push(responseJson.meals[i]["strIngredient" + a])
           newDataArr[i].measurements.push(responseJson.meals[i]["strMeasure" + a])
@@ -102,7 +123,6 @@ function addIngredients(newDataArr) {
     }
 		setTimeout(() => {
 			fulfill(newDataArr)
-      // console.log('final data', newDataArray)
 		}, 800)
     console.log('final data', newDataArr)
 	})
@@ -150,7 +170,7 @@ function displayRecipeResults(responseJson) {
 			// 		ingredients: [],
 			// 		measurements: []
 			// }, {}, {}]
-			addIngredients(resultingObject).then(finalResult => {
+			addIngredients(resultingObject, responseJson).then(finalResult => {
 				createDomElements(finalResult)
 			})
 		})
@@ -159,7 +179,7 @@ function displayRecipeResults(responseJson) {
 		$('.results').append(`No recipes found by that name. Try again.`)
 	}
 }
-  getDetails(responseJson)
+  // getDetails(responseJson)
 }
 
 // function displayRecipeResults(responseJson) {
@@ -171,14 +191,14 @@ function displayRecipeResults(responseJson) {
   //   if (responseJson.meals.length === 0) {
   //     $('.results').append(`No recipes found by that name. Try again.`)
   //   } else {
-  //     $('.results').append(`<div id="recipe_${i}"><h3>${responseJson.meals[i].strMeal}</h3>
-  //     <img class="results-thumbnail" src="${responseJson.meals[i].strMealThumb}" alt="a thumbnail image of ${responseJson.meals[i].strMealThumb}"><br>
-  //     <button class="details-button" type="button" name="details-button">click for recipe details</button>
-  //     <div class="recipe-details recipe-details-hidden">
-  //     <p>Instructions: ${responseJson.meals[i].strInstructions}</p><br>
-  //     <button class="add-to-list" type="button" name="add-to-list">add to shopping list</button>
-  //     <ul class="ingredients-list">
-  //     </div>`)
+      // $('.results').append(`<div id="recipe_${i}"><h3>${responseJson.meals[i].strMeal}</h3>
+      // <img class="results-thumbnail" src="${responseJson.meals[i].strMealThumb}" alt="a thumbnail image of ${responseJson.meals[i].strMealThumb}"><br>
+      // <button class="details-button" type="button" name="details-button">click for recipe details</button>
+      // <div class="recipe-details recipe-details-hidden">
+      // <p>Instructions: ${responseJson.meals[i].strInstructions}</p><br>
+      // <button class="add-to-list" type="button" name="add-to-list">add to shopping list</button>
+      // <ul class="ingredients-list">
+      // </div>`)
   //
   //     let listItem = ''
   //       for (let a=1; a<21; a++) {
@@ -187,13 +207,13 @@ function displayRecipeResults(responseJson) {
   //         }
   //     }
   //           $('.ingredients-list').append(listItem)
-  //             // $('.results').append(`<div class="recipe-details recipe-details-hidden">
-  //             // <li><input type="checkbox" class="cb-class" name="ingredient" value="${responseJson.meals[i]["strIngredient" + a]}">${responseJson.meals[i]["strIngredient" + a]}, ${responseJson.meals[i]["strMeasure" + a]}</li>
+  //             $('.results').append(`<div class="recipe-details recipe-details-hidden">
+  //             <li><input type="checkbox" class="cb-class" name="ingredient" value="${responseJson.meals[i]["strIngredient" + a]}">${responseJson.meals[i]["strIngredient" + a]}, ${responseJson.meals[i]["strMeasure" + a]}</li>
   //             $('.results').append(`</ul>
   //             </div>
   //             </div>`)
   //
-  //   }
+  // //   }
   // }
 //   getDetails(responseJson)
 // }
@@ -246,7 +266,7 @@ function getMealRecipes(searchInput, responseJson) {
         $('.js-err-msg').empty()
       }
 
-//this function will handle the search submit
+// this function will handle the search submit
 function handleSearch() {
   $('.js-submit').on('click', function(event) {
   console.log(`'handleSearch' has run`)
