@@ -97,15 +97,15 @@ function createDomElements(newDataArr) {
     <ul class="ingredients-list">
     </ul></div></div>`)
 
-// HAVING TROUBLE WITH THIS 
-    for (let b=0; b < newDataArr[i].ingredients.length; b++) {
-      let listItem = ''
-      if (newDataArr[i].ingredients[b] !== null && newDataArr[i].ingredients[b] !== "") {
-        listItem = <li><input type="checkbox" class="cb-class" name="ingredient" value="${newDataArr[i].ingredients[b]}, ${newDataArr[i].measurements[b]}">${newDataArr[i].ingredients[b]}, ${newDataArr[i].measurements[b]}</li>
-      }
-      $('.ingredients-list').append(listItem)
-    }
-  }
+// HAVING TROUBLE WITH THIS
+  //   for (let b=0; b < newDataArr[i].ingredients.length; b++) {
+  //     let listItem = ''
+  //     if (newDataArr[i].ingredients[b] !== null && newDataArr[i].ingredients[b] !== "") {
+  //       listItem = <li><input type="checkbox" class="cb-class" name="ingredient" value="${newDataArr[i].ingredients[b]}, ${newDataArr[i].measurements[b]}">${newDataArr[i].ingredients[b]}, ${newDataArr[i].measurements[b]}</li>
+  //     }
+  //     $('.ingredients-list').append(listItem)
+  //   }
+  // }
   getDetails()
 }
 
